@@ -2,7 +2,7 @@ from blocks import Block
 from turtle import *
 import time
 
-
+VALUE, BLOCK = 0, 1
 class Visualize():
     START_X = -650
     blocks = []
@@ -26,7 +26,6 @@ class Visualize():
     @classmethod
     def selection_sort(cls, arr):
         n = len(arr)
-        start = time.perf_counter()
         for i in range(n - 1):
             min_index = i
             for j in range(i + 1, n):
@@ -41,14 +40,11 @@ class Visualize():
             cls.blocks[min_index].setx(cls.START_X + 15 * min_index)
             cls.blocks[i].setx(cls.START_X + 15 * i)
             cls.screen.update()
-        time_elapsed = time.perf_counter() - start
-        return time_elapsed
 
 
     @classmethod
     def insertion_sort(cls, arr):
         n = len(arr)
-        start = time.perf_counter()
         for i in range(1, n):
             key = arr[i]
             block_key = cls.blocks[i]
@@ -65,14 +61,11 @@ class Visualize():
                 j -= 1
             block_key.color('white')
             arr[j + 1] = key
-        time_elapsed = time.perf_counter() - start
-        return time_elapsed
     
 
     @classmethod
     def bubble_sort(cls, arr):
         n = len(arr)
-        start = time.perf_counter()
         for i in range(n):
             for j in range(n - i - 1):
                 cls.blocks[j].color('red')
@@ -87,61 +80,36 @@ class Visualize():
                 else:
                     cls.blocks[j].color('white')
                 cls.screen.update()
-        time_elapsed = time.perf_counter() - start
-        return time_elapsed
     
 
     @classmethod
-    def merge_sort(cls, arr):
+    def merge_sort(cls, arr, offset=0):
         n = len(arr)
-        start = time.perf_counter()
         if n > 1: 
             mid = n // 2
-            L = arr[:mid]
-            R = arr[mid:]
+            
+            L = list(zip(arr[:mid], cls.blocks[offset:offset + mid]))
+            R = list(zip(arr[mid:], cls.blocks[offset + mid:offset + n]))
 
-            L_BLOCKS = cls.blocks[:mid]
-            R_BLOCKS = cls.blocks[mid:]
-
-            cls.merge_sort(L)
-            cls.merge_sort(R)
+            cls.merge_sort(L, offset)
+            cls.merge_sort(R, offset + mid)
             
             i = j = k = 0
-            while i < len(L) and j < len(R):
-                if L[i] < R[j]:
-                    L_BLOCKS[i].color('red')
-                    cls.screen.update()
-                    print(len(L_BLOCKS))
-                    time.sleep(0.02)
-                    L_BLOCKS[i].setx(cls.START_X + 15 * k)
-                    cls.blocks[k] = L_BLOCKS[i]
-                    L_BLOCKS[i].color('white')
-                    arr[k] = L[i]
+            while k < n:
+                if not (j < len(R)) or i < len(L) and L[i][VALUE] < R[j][VALUE]:
+                    L[i][BLOCK].color('red')
+                    cls.blocks[k + offset] = L[i][BLOCK]
+                    arr[k] = L[i][VALUE]
                     i += 1
                 else:
-                    R_BLOCKS[j].color('red')
-                    cls.screen.update()
-                    print(len(R_BLOCKS))
-                    time.sleep(0.02)
-                    R_BLOCKS[j].setx(cls.START_X + 15 * k)
-                    cls.blocks[k] = R_BLOCKS[j]
-                    R_BLOCKS[j].color('white')
-                    arr[k] = R[j]
+                    R[j][BLOCK].color('red')
+                    cls.blocks[k + offset] = R[j][BLOCK]
+                    arr[k] = R[j][VALUE]
                     j += 1
-                cls.screen.update()
-                k += 1
-            
-            while i < len(L):
-                arr[k] = L[i]
-                i += 1
-                k += 1
-                cls.screen.update()
 
-            while j < len(R):
-                arr[k] = R[j]
-                j += 1
+                cls.screen.update()
+                time.sleep(0.02)
+                cls.blocks[k + offset].setx(cls.START_X + 15 * (k + offset))
+                cls.blocks[k + offset].color('white')
                 k += 1
                 cls.screen.update()
-
-        time_elapsed = time.perf_counter() - start
-        return time_elapsed

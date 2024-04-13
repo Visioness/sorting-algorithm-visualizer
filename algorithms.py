@@ -65,3 +65,44 @@ class Algorithm():
                 j += 1
                 k += 1
         return arr
+
+
+    @classmethod
+    def quick_sort(cls, arr, start, end):
+        low = start
+        high = end - 1
+
+        if start >= end:
+            return
+        
+        mid = (start + end) // 2
+        # Median of three method for the pivot
+        if arr[start] <= arr[mid] <= arr[end] or arr[end] <= arr[mid] <= arr[start]:
+            pivot = arr[mid]
+            index = mid
+        elif arr[mid] <= arr[start] <= arr[end] or arr[end] <= arr[start] <= arr[mid]:
+            pivot = arr[start]
+            index = start
+        elif arr[start] <= arr[end] <= arr[mid] or arr[mid] <= arr[end] <= arr[start]:
+            pivot = arr[end]
+            index = end
+            
+        # Changing pivot with the last element
+        if index != end:
+            arr[index], arr[end] = arr[end], arr[index]
+
+        while True:
+            while low <= high and arr[low] <= pivot:
+                low = low + 1
+            while low <= high and arr[high] >= pivot:
+                high = high - 1
+            
+            if low <= high:
+                arr[low], arr[high] = arr[high], arr[low]
+            else:
+                break
+
+        arr[low], arr[end] = arr[end], arr[low]
+        
+        cls.quick_sort(arr, start, low - 1)
+        cls.quick_sort(arr, low + 1, end)

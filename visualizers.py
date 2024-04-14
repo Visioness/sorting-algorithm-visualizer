@@ -34,7 +34,7 @@ class Visualize():
             for j in range(i + 1, n):
                 cls.blocks[j].color('red')
                 cls.screen.update()
-                time.sleep(0.02)
+                time.sleep(cls.SPEED)
                 if arr[j] < arr[min_index]:
                     min_index = j
                 cls.blocks[j].color('white')
@@ -61,7 +61,7 @@ class Visualize():
                 cls.blocks[j + 1].setx(cls.START_X + 15 * j)
                 cls.blocks[j], cls.blocks[j + 1] = cls.blocks[j + 1], cls.blocks[j]
                 cls.screen.update()
-                time.sleep(0.02)
+                time.sleep(cls.SPEED)
                 arr[j + 1] = arr[j]
                 j -= 1
 
@@ -76,7 +76,7 @@ class Visualize():
             for j in range(n - i - 1):
                 cls.blocks[j].color('red')
                 cls.screen.update()
-                time.sleep(0.02)
+                time.sleep(cls.SPEED)
 
                 if arr[j] > arr[j + 1]:
                     cls.blocks[j].setx(cls.START_X + 15 * (j + 1))
@@ -117,7 +117,7 @@ class Visualize():
                     j += 1
 
                 cls.screen.update()
-                time.sleep(0.02)
+                time.sleep(cls.SPEED)
                 cls.blocks[k + offset].setx(cls.START_X + 15 * (k + offset))
                 cls.blocks[k + offset].color('white')
                 k += 1
@@ -207,3 +207,60 @@ class Visualize():
 
         cls.quick_sort(arr, start, low - 1)
         cls.quick_sort(arr, low + 1, end)
+
+
+    @classmethod
+    def heap_sort(cls, arr):
+        n = len(arr)
+        for i in range(n//2, -1, -1):
+            cls.heapify(arr, n, i)
+        cls.screen.update()
+
+        for i in range(n-1, 0, -1):
+            cls.blocks[i].setx(cls.START_X + 15 * 0)
+            cls.blocks[0].setx(cls.START_X + 15 * i)
+            cls.blocks[0].color('white')
+            cls.blocks[i], cls.blocks[0] = cls.blocks[0], cls.blocks[i]
+            cls.screen.update()
+            #time.sleep(cls.SPEED)
+            arr[i], arr[0] = arr[0], arr[i]
+            cls.heapify(arr, i, 0)
+
+    
+    @classmethod
+    def heapify(cls, arr, n, i):
+        largest = i
+        l = 2 * i + 1
+        r = 2 * i + 2
+
+        if r < n:
+            for j in [i, l, r]:
+                cls.blocks[j].color('red')
+            cls.screen.update()
+
+        if l < n and arr[i] < arr[l]:
+            largest = l
+
+        if r < n and arr[largest] < arr[r]:
+            largest = r
+        
+        if r < n:
+            cls.blocks[largest].color('red')
+            cls.screen.update()
+            time.sleep(cls.SPEED)
+
+        if largest != i:
+            cls.blocks[largest].setx(cls.START_X + 15 * i)
+            cls.blocks[i].setx(cls.START_X + 15 * largest)
+            cls.blocks[i], cls.blocks[largest] = cls.blocks[largest], cls.blocks[i]
+            cls.screen.update()
+            time.sleep(cls.SPEED)
+            arr[i], arr[largest] = arr[largest], arr[i]
+
+        if r < n:
+            for j in [i, l, r]:
+                cls.blocks[j].color('white')
+            cls.screen.update()
+
+        if largest != i:
+            cls.heapify(arr, n, largest)

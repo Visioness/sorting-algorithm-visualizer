@@ -6,7 +6,7 @@ VALUE, BLOCK = 0, 1
 class Visualize():
     START_X = -650
     blocks = []
-    SPEED = 0.01
+    SPEED = 0.02
 
     @classmethod
     def create_screen(cls):
@@ -30,6 +30,7 @@ class Visualize():
         n = len(arr)
         for i in range(n - 1):
             min_index = i
+
             for j in range(i + 1, n):
                 cls.blocks[j].color('red')
                 cls.screen.update()
@@ -37,6 +38,7 @@ class Visualize():
                 if arr[j] < arr[min_index]:
                     min_index = j
                 cls.blocks[j].color('white')
+
             arr[min_index], arr[i] = arr[i], arr[min_index]
             cls.blocks[min_index], cls.blocks[i] = cls.blocks[i], cls.blocks[min_index]
             cls.blocks[min_index].setx(cls.START_X + 15 * min_index)
@@ -53,6 +55,7 @@ class Visualize():
             block_key.color('red')
             cls.screen.update()
             j = i - 1
+
             while j >= 0 and key < arr[j]:
                 cls.blocks[j].setx(cls.START_X + 15 * (j + 1))
                 cls.blocks[j + 1].setx(cls.START_X + 15 * j)
@@ -61,6 +64,7 @@ class Visualize():
                 time.sleep(0.02)
                 arr[j + 1] = arr[j]
                 j -= 1
+
             block_key.color('white')
             arr[j + 1] = key
     
@@ -73,14 +77,17 @@ class Visualize():
                 cls.blocks[j].color('red')
                 cls.screen.update()
                 time.sleep(0.02)
+
                 if arr[j] > arr[j + 1]:
                     cls.blocks[j].setx(cls.START_X + 15 * (j + 1))
                     cls.blocks[j + 1].setx(cls.START_X + 15 * j)
                     cls.blocks[j], cls.blocks[j + 1] = cls.blocks[j + 1], cls.blocks[j]
                     arr[j], arr[j + 1] = arr[j + 1], arr[j]
                     cls.blocks[j + 1].color('white')
+
                 else:
                     cls.blocks[j].color('white')
+
                 cls.screen.update()
     
 
@@ -119,19 +126,13 @@ class Visualize():
 
     @classmethod
     def quick_sort(cls, arr, start, end):
-        low = start
-        high = end - 1
         if start >= end:
             return
         
+        low = start
+        high = end - 1
         mid = (start + end) // 2
 
-        # Pivot candidates
-        for i in [start, mid, end]:
-            cls.blocks[i].color('orange')
-        cls.screen.update()
-        time.sleep(cls.SPEED)
-        
         # Median of three method for the pivot
         if arr[start] <= arr[mid] <= arr[end] or arr[end] <= arr[mid] <= arr[start]:
             pivot = arr[mid]
@@ -143,10 +144,15 @@ class Visualize():
             pivot = arr[end]
             index = end
         
+        # Pivot selection
+        for i in [start, mid, end]:
+            cls.blocks[i].color('orange')
+        cls.screen.update()
+        time.sleep(cls.SPEED)
+
         # Coloring current portion
         for i in range(start, end + 1):
             cls.blocks[i].color('grey')
-
 
         # Changing pivot with the last element
         cls.blocks[index].color('yellow')
@@ -160,44 +166,35 @@ class Visualize():
             cls.screen.update()
 
         while True:
-            
+            cls.blocks[low].color('green')
+            cls.screen.update()
             while low <= high and arr[low] <= pivot:
-                cls.blocks[low].color('green')
-                cls.screen.update()
+                cls.blocks[low + 1].color('green')
                 time.sleep(cls.SPEED)
-                cls.blocks[low].color('white')
                 cls.screen.update()
                 low = low + 1
             
-            
+            cls.blocks[high].color('purple')
+            cls.screen.update()
             while low <= high and arr[high] >= pivot:
-                cls.blocks[high].color('purple')
-                cls.screen.update()
+                cls.blocks[high - 1].color('purple')
                 time.sleep(cls.SPEED)
-                cls.blocks[high].color('white')
                 cls.screen.update()
                 high = high - 1
-                
 
             if low <= high:
-                cls.blocks[low].color('green')
-                cls.blocks[high].color('purple')
-                cls.screen.update()
                 time.sleep(cls.SPEED)
-
                 cls.blocks[low].setx(cls.START_X + 15 * high)
                 cls.blocks[high].setx(cls.START_X + 15 * low)
                 cls.blocks[low].color('purple')
                 cls.blocks[high].color('green')
                 cls.screen.update()
-                time.sleep(cls.SPEED)
-
                 cls.blocks[low], cls.blocks[high] = cls.blocks[high], cls.blocks[low]
                 arr[low], arr[high] = arr[high], arr[low]
+
+            else:
                 cls.blocks[low].color('white')
                 cls.blocks[high].color('white')
-                cls.screen.update()
-            else:
                 break
 
         cls.blocks[low].setx(cls.START_X + 15 * end)

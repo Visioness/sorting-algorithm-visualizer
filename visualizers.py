@@ -6,17 +6,13 @@ VALUE, BLOCK = 0, 1
 class Visualize():
     START_X = -650
     blocks = []
-    SPEED = 0.02
+    SPEED = 0.005
+    screen = None
 
     @classmethod
-    def create_screen(cls):
-        cls.screen = Screen()
-        cls.screen.title('Sorting Algorithms')
-        cls.screen.setup(width=1600, height=900, starty=0)
-        cls.screen.bgcolor('black')
-        cls.screen.tracer(0)
+    def get_screen(cls, screen):
+        cls.screen = screen
     
-        return cls.screen
 
     @classmethod
     def show_list(cls, arr):
@@ -110,6 +106,7 @@ class Visualize():
                     cls.blocks[k + offset] = L[i][BLOCK]
                     arr[k] = L[i][VALUE]
                     i += 1
+
                 else:
                     R[j][BLOCK].color('red')
                     cls.blocks[k + offset] = R[j][BLOCK]
@@ -214,6 +211,7 @@ class Visualize():
         n = len(arr)
         for i in range(n//2, -1, -1):
             cls.heapify(arr, n, i)
+
         cls.screen.update()
 
         for i in range(n-1, 0, -1):

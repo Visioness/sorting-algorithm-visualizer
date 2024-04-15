@@ -10,6 +10,6 @@ class Block(Turtle):
         self.shape('square')
         self.shapesize(stretch_len=STRETCH_COEF + (STRETCH_COEF * len_coef), stretch_wid=0.5)
         self.turtle_length, self.turtle_width = ((TURTLE_SIZE * STRETCH_COEF * len_coef), TURTLE_SIZE)
-        self.goto(xcor, (-430 + self.turtle_length / 2))
-        self.color('white')
         self.penup()
+        self.color('white')
+        self.goto(xcor, (-430 + self.turtle_length / 2))

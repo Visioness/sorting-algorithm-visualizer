@@ -1,7 +1,8 @@
-import time
-
+'''Main Sorting Algorithms to execute sorting on the chosen array.
+Quick Sorting uses Median of Three method to choose the pivot.'''
 
 class Algorithm():
+    # Selection Sort Algorithm
     @classmethod
     def selection_sort(cls, arr):
         n = len(arr)
@@ -13,6 +14,7 @@ class Algorithm():
             arr[min_index], arr[i] = arr[i], arr[min_index]
     
 
+    # Insertion Sort Algorithm
     @classmethod
     def insertion_sort(cls, arr):
         n = len(arr)
@@ -24,7 +26,7 @@ class Algorithm():
                 j -= 1
             arr[j + 1] = key
     
-
+    # Bubble Sort Algorithm
     @classmethod
     def bubble_sort(cls, arr):
         n = len(arr)
@@ -33,7 +35,7 @@ class Algorithm():
                 if arr[j] > arr[j + 1]:
                     arr[j], arr[j + 1] = arr[j + 1], arr[j]
     
-
+    # Merge Sort Algorithm
     @classmethod
     def merge_sort(cls, arr):
         n = len(arr)
@@ -64,9 +66,8 @@ class Algorithm():
                 arr[k] = R[j]
                 j += 1
                 k += 1
-        return arr
 
-
+    # Quick Sort Algorithm
     @classmethod
     def quick_sort(cls, arr, start, end):
         low = start
@@ -76,7 +77,7 @@ class Algorithm():
             return
         
         mid = (start + end) // 2
-        # Median of three method for the pivot
+        # Median of three method to choose the pivot
         if arr[start] <= arr[mid] <= arr[end] or arr[end] <= arr[mid] <= arr[start]:
             pivot = arr[mid]
             index = mid
@@ -108,6 +109,7 @@ class Algorithm():
         cls.quick_sort(arr, low + 1, end)
 
     
+    # Heap Sort Algorithm
     @classmethod
     def heap_sort(cls, arr):
         n = len(arr)
@@ -134,4 +136,3 @@ class Algorithm():
         if largest != i:
             arr[i], arr[largest] = arr[largest], arr[i]
             cls.heapify(arr, n, largest)
-        

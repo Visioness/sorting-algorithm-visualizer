@@ -236,13 +236,13 @@ class Visualize():
                 break
         
         # Repositioning the pivot back to the correct position
+        cls.blocks[end].color('white')
         cls.blocks[low].setx(cls.START_X + cls.interval * end)
         cls.blocks[end].setx(cls.START_X + cls.interval * low)
         cls.blocks[low], cls.blocks[end] = cls.blocks[end], cls.blocks[low]
         arr[low], arr[end] = arr[end], arr[low]
-        time.sleep(cls.DELAY)
-        cls.blocks[low].color('white')
         cls.screen.update()
+        time.sleep(cls.DELAY)
 
         # Applying Quick Sort recursively on the left and right portion
         cls.quick_sort(arr, start, low - 1)

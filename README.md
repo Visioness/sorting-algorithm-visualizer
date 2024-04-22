@@ -1,6 +1,7 @@
 ﻿# Sorting Algorithm Visualizer 📊
 
-## Video Demo: <https://www.youtube.com/watch?v=PI02UYAqdxc>
+## Video Demo 
+<https://www.youtube.com/watch?v=PI02UYAqdxc>
 
 
 ## Overview

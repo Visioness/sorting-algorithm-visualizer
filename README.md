@@ -3,7 +3,6 @@
 ## Video Demo 
 <https://www.youtube.com/watch?v=PI02UYAqdxc>
 
-
 ## Overview
 Welcome to the Sorting Algorithm Visualizer project! This tool is designed to help you explore and understand how various sorting algorithms work. Sorting algorithms are fundamental to computer science and play a crucial role in organizing data efficiently.
 
